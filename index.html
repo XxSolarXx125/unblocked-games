@@ -63,6 +63,7 @@ button:hover {
 <button onclick="showGame('potion')">Play Potion Lab</button>
 <button onclick="showGame('space-mining')">Play Space Mining</button>
 <button onclick="showGame('dungeon')">Play Dungeon Exploration</button>
+<button onclick="showGame('flappy')">Play Flappy Bird</button>
     </div>
 	
 <div id="adminPanel" style="display: none; position: absolute; top: 20px; left: 20px; background-color: rgba(0, 0, 0, 0.8); color: white; padding: 10px;">
@@ -140,6 +141,16 @@ button:hover {
       <br><br>
       <button onclick="goBack()">🔙 Back</button>
     </div>
+
+<!-- Flappy Bird Game -->
+<div id="flappy" class="game" style="display: none;">
+  <h2>Flappy Bird 🐦</h2>
+  <canvas id="flappyCanvas" width="320" height="480"></canvas>
+  <p>High Score: <span id="flappyHighScore">0</span></p>
+  <button onclick="startFlappyBirdGame()">Start Game</button>
+  <br><br>
+  <button onclick="goBack()">🔙 Back</button>
+</div>
 
 <div id="space-mining" class="game">
   <h2>Space Mining 🚀</h2>
@@ -490,6 +501,143 @@ setInterval(() => {
   wheat += autoFarmers;
   updateFarmUI();
 }, 1000);
+
+let flappyBirdGameData = {
+    birdY: 150,
+    birdVelocity: 0,
+    gravity: 0.5,
+    jumpPower: -8,
+    pipes: [],
+    pipeGap: 100,
+    pipeWidth: 50,
+    pipeSpeed: 2,
+    score: 0,
+    highScore: localStorage.getItem('flappyHighScore') || 0,
+    isGameOver: false
+};
+
+let canvas = document.getElementById("flappyCanvas");
+let ctx = canvas.getContext("2d");
+
+function drawBird() {
+    ctx.fillStyle = "yellow";
+    ctx.fillRect(50, flappyBirdGameData.birdY, 20, 20);
+}
+
+function drawPipes() {
+    ctx.fillStyle = "green";
+    for (let i = 0; i < flappyBirdGameData.pipes.length; i++) {
+        let pipe = flappyBirdGameData.pipes[i];
+        ctx.fillRect(pipe.x, 0, flappyBirdGameData.pipeWidth, pipe.top);
+        ctx.fillRect(pipe.x, pipe.top + flappyBirdGameData.pipeGap, flappyBirdGameData.pipeWidth, canvas.height - pipe.top - flappyBirdGameData.pipeGap);
+    }
+}
+
+function drawScore() {
+    ctx.fillStyle = "white";
+    ctx.font = "20px Arial";
+    ctx.fillText("Score: " + flappyBirdGameData.score, 10, 30);
+    ctx.fillText("High Score: " + flappyBirdGameData.highScore, 10, 60);
+}
+
+function updateGame() {
+    if (flappyBirdGameData.isGameOver) {
+        return;
+    }
+
+    flappyBirdGameData.birdVelocity += flappyBirdGameData.gravity;
+    flappyBirdGameData.birdY += flappyBirdGameData.birdVelocity;
+
+    if (flappyBirdGameData.birdY >= canvas.height - 20) {
+        flappyBirdGameData.birdY = canvas.height - 20;
+        flappyBirdGameData.birdVelocity = 0;
+        gameOver();
+    }
+
+    // Move pipes
+    for (let i = 0; i < flappyBirdGameData.pipes.length; i++) {
+        let pipe = flappyBirdGameData.pipes[i];
+        pipe.x -= flappyBirdGameData.pipeSpeed;
+
+        if (pipe.x + flappyBirdGameData.pipeWidth < 0) {
+            flappyBirdGameData.pipes.splice(i, 1);
+            flappyBirdGameData.score++;
+            i--;
+        }
+    }
+
+    if (flappyBirdGameData.pipes.length === 0 || flappyBirdGameData.pipes[flappyBirdGameData.pipes.length - 1].x < canvas.width - 200) {
+        let topPipeHeight = Math.floor(Math.random() * (canvas.height / 2));
+        flappyBirdGameData.pipes.push({
+            x: canvas.width,
+            top: topPipeHeight
+        });
+    }
+
+    // Collision detection
+    for (let i = 0; i < flappyBirdGameData.pipes.length; i++) {
+        let pipe = flappyBirdGameData.pipes[i];
+        if (pipe.x < 70 && pipe.x + flappyBirdGameData.pipeWidth > 50 && (flappyBirdGameData.birdY < pipe.top || flappyBirdGameData.birdY > pipe.top + flappyBirdGameData.pipeGap)) {
+            gameOver();
+        }
+    }
+
+    drawGame();
+}
+
+function drawGame() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawBird();
+    drawPipes();
+    drawScore();
+}
+
+function startFlappyBirdGame() {
+    flappyBirdGameData = {
+        birdY: 150,
+        birdVelocity: 0,
+        pipes: [],
+        score: 0,
+        isGameOver: false
+    };
+    document.getElementById("flappyHighScore").innerText = flappyBirdGameData.highScore;
+    setInterval(updateGame, 1000 / 60);
+}
+
+function gameOver() {
+    flappyBirdGameData.isGameOver = true;
+    if (flappyBirdGameData.score > flappyBirdGameData.highScore) {
+        flappyBirdGameData.highScore = flappyBirdGameData.score;
+        localStorage.setItem('flappyHighScore', flappyBirdGameData.highScore);
+    }
+    alert("Game Over! Your score: " + flappyBirdGameData.score);
+}
+
+function jump() {
+    if (flappyBirdGameData.isGameOver) return;
+    flappyBirdGameData.birdVelocity = flappyBirdGameData.jumpPower;
+}
+
+// Event listener for the jump
+document.addEventListener("keydown", function(event) {
+    if (event.code === "Space") {
+        jump();
+    }
+});
+
+function showGame(game) {
+    // Hide all other games
+    document.querySelectorAll('.game').forEach(function(gameElement) {
+        gameElement.style.display = 'none';
+    });
+
+    // Show the selected game
+    if (game === 'flappy') {
+        document.getElementById('flappy').style.display = 'block';
+    } else {
+        document.getElementById(game).style.display = 'block';
+    }
+}
 
     // Miner Simulator
     let money = +localStorage.getItem('money') || 0;
