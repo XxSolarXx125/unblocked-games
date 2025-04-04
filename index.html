@@ -53,14 +53,17 @@ button:hover {
   <p id="playTime">Play Time: 0s</p>
     <h1>Solar Games</h1>
     <div id="menu">
-      <button onclick="showGame('clicker')">Play Gem Clicker</button>
-      <button onclick="showGame('simulator')">Play Miner Inc</button>
-      <button onclick="showGame('cookie')">Play Cookie Craze</button>
-      <button onclick="showGame('alien')">Play Alien Tycoon</button>
-	  <button onclick="showGame('farm')">Play Pixel Farm</button>
-	  <button onclick="showGame('robot')">Play Robot Factory</button>
-	  <button onclick="showGame('burger')">Play Burger Empire</button>
-	  <button onclick="showGame('potion')">Play Potion Lab</button>
+<button onclick="showGame('clicker')">Play Gem Clicker</button>
+<button onclick="showGame('simulator')">Play Miner Inc</button>
+<button onclick="showGame('cookie')">Play Cookie Craze</button>
+<button onclick="showGame('alien')">Play Alien Tycoon</button>
+<button onclick="showGame('farm')">Play Pixel Farm</button>
+<button onclick="showGame('robot')">Play Robot Factory</button>
+<button onclick="showGame('burger')">Play Burger Empire</button>
+<button onclick="showGame('potion')">Play Potion Lab</button>
+<button onclick="showGame('space-mining')">Play Space Mining</button>
+<button onclick="showGame('dungeon')">Play Dungeon Exploration</button>
+<button onclick="showGame('farm-simulator')">Play Farm Simulator</button>
     </div>
 
 <div id="potion" class="game">
@@ -638,7 +641,27 @@ setInterval(() => {
 	  localStorage.setItem('tractorCost', tractorCost);
 	  localStorage.setItem('autoFarmers', autoFarmers);
 	  localStorage.setItem('farmerCost', farmerCost);
-    }
+	    // Saving Space Mining Game Data
+  localStorage.setItem('ore', ore);
+  localStorage.setItem('laserPower', laserPower);
+  localStorage.setItem('laserCost', laserCost);
+  localStorage.setItem('pilots', pilots);
+  localStorage.setItem('pilotCost', pilotCost);
+
+  // Saving Dungeon Exploration Game Data
+  localStorage.setItem('gold', gold);
+  localStorage.setItem('swordPower', swordPower);
+  localStorage.setItem('swordCost', swordCost);
+  localStorage.setItem('shieldPower', shieldPower);
+  localStorage.setItem('shieldCost', shieldCost);
+
+  // Saving Farm Simulator Game Data
+  localStorage.setItem('crops', crops);
+  localStorage.setItem('tractorPower', tractorPower);
+  localStorage.setItem('tractorCost', tractorCost);
+  localStorage.setItem('workers', workers);
+  localStorage.setItem('workerCost', workerCost);
+}
 
     window.onbeforeunload = saveGame;
   </script>
