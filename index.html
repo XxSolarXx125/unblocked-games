@@ -65,7 +65,7 @@ button:hover {
 <button onclick="showGame('dungeon')">Play Dungeon Exploration</button>
     </div>
 	
-	<div id="adminPanel" style="display: none; position: absolute; top: 20px; left: 20px; background-color: rgba(0, 0, 0, 0.8); color: white; padding: 10px;">
+<div id="adminPanel" style="display: none; position: absolute; top: 20px; left: 20px; background-color: rgba(0, 0, 0, 0.8); color: white; padding: 10px;">
   <h2>Admin Panel</h2>
   <button onclick="resetGameProgress()">Reset Game Progress</button>
   <br><br>
@@ -84,6 +84,8 @@ button:hover {
   </select>
   <input type="number" id="currencyAmount" placeholder="Amount" />
   <button onclick="giveCurrency(document.getElementById('gameSelect').value, document.getElementById('currencyAmount').value)">Give Currency</button>
+  <br><br>
+  <button onclick="window.open('https://discord.gg/N4PeWT42YC', '_blank')">Join Discord</button>
 </div>
 
 <div id="potion" class="game">
