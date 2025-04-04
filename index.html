@@ -50,24 +50,16 @@ button:hover {
 </head>
 <body>
   <div class="container">
-    <p id="playTime">Play Time: 0s</p>
+  <p id="playTime">Play Time: 0s</p>
     <h1>Solar Games</h1>
     <div id="menu">
       <button onclick="showGame('clicker')">Play Gem Clicker</button>
       <button onclick="showGame('simulator')">Play Miner Inc</button>
-      <button onclick="showGame('cookie')">Play Cookie Clicker</button>
+      <button onclick="showGame('cookie')">Play Cookie Craze</button>
       <button onclick="showGame('alien')">Play Alien Tycoon</button>
-      <button onclick="showGame('farm')">Play Pixel Farm</button>
-      <button onclick="showGame('robot')">Play Robot Factory</button>
+	  <button onclick="showGame('farm')">Play Pixel Farm</button>
+	  <button onclick="showGame('robot')">Play Robot Factory</button>
     </div>
-  </div>
-
-  <!-- Credits Button -->
-  <button class="credits-btn" onclick="showCredits()">Credits</button>
-
-  <!-- Fading Message -->
-  <div id="creditsMessage">Made by Solar | Discord: ytz_solar</div>
-</body>
 
     <!-- Clicker Game -->
     <div id="clicker" class="game">
@@ -122,9 +114,9 @@ button:hover {
   <button onclick="goBack()">🔙 Back</button>
 </div>
 
-    <!-- Cookie Clicker Game -->
+    <!-- Cookie Craze Game -->
     <div id="cookie" class="game">
-      <h2>Cookie Clicker 🍪</h2>
+      <h2>Cookie Craze 🍪</h2>
       <p>Cookies: <span id="cookies">0</span></p>
       <img src="images/cookie.png" alt="Cookie" class="clicker-image" onclick="bakeCookie()">
       <div class="upgrade">
@@ -339,7 +331,7 @@ setInterval(() => {
       updateSimulatorUI();
     }, 1000);
 
-    // Cookie Clicker Game
+    // Cookie Craze Game
     let cookies = +localStorage.getItem('cookies') || 1;
     let cookiesPerClick = +localStorage.getItem('cookiesPerClick') || 1;
     let cookieUpgradeCost = +localStorage.getItem('cookieUpgradeCost') || 15;
