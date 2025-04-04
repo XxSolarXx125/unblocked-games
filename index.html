@@ -91,9 +91,6 @@ button:hover {
       <button onclick="showGame('alien')">Play Alien Tycoon</button>
       <button onclick="showGame('farm')">Play Pixel Farm</button>
       <button onclick="showGame('robot')">Play Robot Factory</button>
-	  <button onclick="showGame('burger')">Play Burger Empire</button>
-	  <button onclick="showGame('potion')">Play Potion Lab</button>
-
     </div>
   </div>
 
@@ -116,18 +113,6 @@ button:hover {
       <br><br>
       <button onclick="goBack()">🔙 Back</button>
     </div>
-
-<div id="burger" class="game">
-  <h2>Burger Empire 🍔</h2>
-  <p>Burgers: <span id="burgers">0</span></p>
-  <img src="images/burger.png" alt="Burger" class="clicker-image" onclick="grillBurger()">
-  <div class="upgrade">
-    <button onclick="buyGrill()">Buy Grill (Cost: <span id="grillCost">25</span>)</button>
-    <button onclick="hireChef()">Hire Chef (Cost: <span id="chefCost">150</span>)</button>
-  </div>
-  <br><br>
-  <button onclick="goBack()">🔙 Back</button>
-</div>
 
     <!-- Simulator Game -->
     <div id="simulator" class="game">
@@ -164,18 +149,6 @@ button:hover {
   <div class="upgrade">
     <button onclick="buyTractor()">Buy Tractor (Cost: <span id="tractorCost">20</span>)</button>
     <button onclick="buyAutoFarmer()">Hire Auto Farmer (Cost: <span id="farmerCost">150</span>)</button>
-  </div>
-  <br><br>
-  <button onclick="goBack()">🔙 Back</button>
-</div>
-
-<div id="potion" class="game">
-  <h2>Potion Lab 🧪</h2>
-  <p>Potions: <span id="potions">0</span></p>
-  <img src="images/potion.png" alt="Potion" class="clicker-image" onclick="brewPotion()">
-  <div class="upgrade">
-    <button onclick="upgradeCauldron()">Upgrade Cauldron (Cost: <span id="cauldronCost">30</span>)</button>
-    <button onclick="hireAlchemist()">Hire Alchemist (Cost: <span id="alchemistCost">180</span>)</button>
   </div>
   <br><br>
   <button onclick="goBack()">🔙 Back</button>
@@ -263,87 +236,6 @@ button:hover {
       document.getElementById('gemUpgradeCost').textContent = gemUpgradeCost;
       document.getElementById('autoClickerCost').textContent = autoClickerCost;
     }
-
-let burgers = +localStorage.getItem('burgers') || 0;
-let grillPower = +localStorage.getItem('grillPower') || 1;
-let grillCost = +localStorage.getItem('grillCost') || 25;
-let chefs = +localStorage.getItem('chefs') || 0;
-let chefCost = +localStorage.getItem('chefCost') || 150;
-
-function grillBurger() {
-  burgers += grillPower;
-  updateBurgerUI();
-}
-
-function buyGrill() {
-  if (burgers >= grillCost) {
-    burgers -= grillCost;
-    grillPower++;
-    grillCost = Math.floor(grillCost * 1.5);
-    updateBurgerUI();
-  }
-}
-
-function hireChef() {
-  if (burgers >= chefCost) {
-    burgers -= chefCost;
-    chefs++;
-    chefCost = Math.floor(chefCost * 1.8);
-    updateBurgerUI();
-  }
-}
-
-function updateBurgerUI() {
-  document.getElementById('burgers').textContent = burgers;
-  document.getElementById('grillCost').textContent = grillCost;
-  document.getElementById('chefCost').textContent = chefCost;
-}
-
-setInterval(() => {
-  burgers += chefs;
-  updateBurgerUI();
-}, 1000);
-
-
-let potions = +localStorage.getItem('potions') || 0;
-let cauldronPower = +localStorage.getItem('cauldronPower') || 1;
-let cauldronCost = +localStorage.getItem('cauldronCost') || 30;
-let alchemists = +localStorage.getItem('alchemists') || 0;
-let alchemistCost = +localStorage.getItem('alchemistCost') || 180;
-
-function brewPotion() {
-  potions += cauldronPower;
-  updatePotionUI();
-}
-
-function upgradeCauldron() {
-  if (potions >= cauldronCost) {
-    potions -= cauldronCost;
-    cauldronPower++;
-    cauldronCost = Math.floor(cauldronCost * 1.5);
-    updatePotionUI();
-  }
-}
-
-function hireAlchemist() {
-  if (potions >= alchemistCost) {
-    potions -= alchemistCost;
-    alchemists++;
-    alchemistCost = Math.floor(alchemistCost * 1.8);
-    updatePotionUI();
-  }
-}
-
-function updatePotionUI() {
-  document.getElementById('potions').textContent = potions;
-  document.getElementById('cauldronCost').textContent = cauldronCost;
-  document.getElementById('alchemistCost').textContent = alchemistCost;
-}
-
-setInterval(() => {
-  potions += alchemists;
-  updatePotionUI();
-}, 1000);
 
 let playSeconds = +localStorage.getItem('playSeconds') || 0;
 
