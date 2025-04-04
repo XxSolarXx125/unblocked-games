@@ -53,9 +53,8 @@
     <div id="menu">
       <button onclick="showGame('clicker')">Play Gem Clicker</button>
       <button onclick="showGame('simulator')">Play Miner Inc</button>
-	  <button onclick="showGame('cookie')">Play Cookie Craze</button>
-	  <button onclick="showGame('alien')">Play Alien Tycoon</button>
-
+      <button onclick="showGame('cookie')">Play Cookie Craze</button>
+      <button onclick="showGame('alien')">Play Alien Tycoon</button>
     </div>
 
     <!-- Clicker Game -->
@@ -86,6 +85,34 @@
       <br><br>
       <button onclick="goBack()">🔙 Back</button>
     </div>
+
+    <!-- Cookie Craze Game -->
+    <div id="cookie" class="game">
+      <h2>Cookie Craze 🍪</h2>
+      <p>Cookies: <span id="cookies">0</span></p>
+      <img src="images/cookie.png" alt="Cookie" class="clicker-image" onclick="bakeCookie()">
+      <div class="upgrade">
+        <button onclick="buyCookieUpgrade()">Upgrade Click (Cost: <span id="cookieUpgradeCost">15</span>)</button>
+        <button onclick="buyBaker()">Hire Baker (Cost: <span id="bakerCost">100</span>)</button>
+      </div>
+      <br><br>
+      <button onclick="goBack()">🔙 Back</button>
+    </div>
+
+    <!-- Alien Tycoon Game -->
+    <div id="alien" class="game">
+      <h2>Alien Tycoon 👽</h2>
+      <p>Energy: ⚡<span id="energy">0</span></p>
+      <p>Aliens: <span id="aliens">0</span></p>
+      <img src="images/alien.png" alt="Alien Worker" class="miner-image">
+      <div>
+        <button onclick="hireAlien()">Hire Alien (⚡<span id="alienCost">30</span>)</button>
+        <button onclick="upgradeSpaceship()">Upgrade Spaceship (⚡<span id="spaceshipUpgradeCost">80</span>)</button>
+      </div>
+      <br><br>
+      <button onclick="goBack()">🔙 Back</button>
+    </div>
+
   </div>
 
   <script>
@@ -144,7 +171,7 @@
 
     // Miner Simulator
     let money = +localStorage.getItem('money') || 0;
-    let miners = +localStorage.getItem('miners') || 1; // start with 1 miner
+    let miners = +localStorage.getItem('miners') || 1; 
     let minerPower = +localStorage.getItem('minerPower') || 1;
     let minerCost = +localStorage.getItem('minerCost') || 20;
     let minerUpgradeCost = +localStorage.getItem('minerUpgradeCost') || 50;
@@ -179,142 +206,106 @@
       updateSimulatorUI();
     }, 1000);
 
-<!-- Cookie Craze Game -->
-<div id="cookie" class="game">
-  <h2>Cookie Craze 🍪</h2>
-  <p>Cookies: <span id="cookies">0</span></p>
-  <img src="images/cookie.png" alt="Cookie" class="clicker-image" onclick="bakeCookie()">
-  <div class="upgrade">
-    <button onclick="buyCookieUpgrade()">Upgrade Click (Cost: <span id="cookieUpgradeCost">15</span>)</button>
-    <button onclick="buyBaker()">Hire Baker (Cost: <span id="bakerCost">100</span>)</button>
-  </div>
-  <br><br>
-  <button onclick="goBack()">🔙 Back</button>
-</div>
+    // Cookie Craze Game
+    let cookies = +localStorage.getItem('cookies') || 0;
+    let cookiesPerClick = +localStorage.getItem('cookiesPerClick') || 1;
+    let cookieUpgradeCost = +localStorage.getItem('cookieUpgradeCost') || 15;
+    let bakers = +localStorage.getItem('bakers') || 0;
+    let bakerCost = +localStorage.getItem('bakerCost') || 100;
 
-<!-- Alien Tycoon Game -->
-<div id="alien" class="game">
-  <h2>Alien Tycoon 👽</h2>
-  <p>Energy: ⚡<span id="energy">0</span></p>
-  <p>Aliens: <span id="aliens">0</span></p>
-  <img src="images/alien.png" alt="Alien Worker" class="miner-image">
-  <div>
-    <button onclick="hireAlien()">Hire Alien (⚡<span id="alienCost">30</span>)</button>
-    <button onclick="upgradeSpaceship()">Upgrade Spaceship (⚡<span id="spaceshipUpgradeCost">80</span>)</button>
-  </div>
-  <br><br>
-  <button onclick="goBack()">🔙 Back</button>
-</div>
+    function bakeCookie() {
+      cookies += cookiesPerClick;
+      updateCookieUI();
+    }
 
-// Cookie Craze Game
-let cookies = +localStorage.getItem('cookies') || 0;
-let cookiesPerClick = +localStorage.getItem('cookiesPerClick') || 1;
-let cookieUpgradeCost = +localStorage.getItem('cookieUpgradeCost') || 15;
-let bakers = +localStorage.getItem('bakers') || 0;
-let bakerCost = +localStorage.getItem('bakerCost') || 100;
+    function buyCookieUpgrade() {
+      if (cookies >= cookieUpgradeCost) {
+        cookies -= cookieUpgradeCost;
+        cookiesPerClick++;
+        cookieUpgradeCost = Math.floor(cookieUpgradeCost * 1.6);
+        updateCookieUI();
+      }
+    }
 
-function bakeCookie() {
-  cookies += cookiesPerClick;
-  updateCookieUI();
-}
+    function buyBaker() {
+      if (cookies >= bakerCost) {
+        cookies -= bakerCost;
+        bakers++;
+        bakerCost = Math.floor(bakerCost * 1.7);
+        updateCookieUI();
+      }
+    }
 
-function buyCookieUpgrade() {
-  if (cookies >= cookieUpgradeCost) {
-    cookies -= cookieUpgradeCost;
-    cookiesPerClick++;
-    cookieUpgradeCost = Math.floor(cookieUpgradeCost * 1.6);
-    updateCookieUI();
-  }
-}
+    function updateCookieUI() {
+      document.getElementById('cookies').textContent = cookies;
+      document.getElementById('cookieUpgradeCost').textContent = cookieUpgradeCost;
+      document.getElementById('bakerCost').textContent = bakerCost;
+    }
 
-function buyBaker() {
-  if (cookies >= bakerCost) {
-    cookies -= bakerCost;
-    bakers++;
-    bakerCost = Math.floor(bakerCost * 1.7);
-    updateCookieUI();
-  }
-}
+    setInterval(() => {
+      cookies += bakers;
+      updateCookieUI();
+    }, 1000);
 
-setInterval(() => {
-  cookies += bakers;
-  updateCookieUI();
-}, 1000);
+    // Alien Tycoon
+    let energy = +localStorage.getItem('energy') || 0;
+    let aliens = +localStorage.getItem('aliens') || 0;
+    let alienCost = +localStorage.getItem('alienCost') || 30;
+    let spaceshipUpgradeCost = +localStorage.getItem('spaceshipUpgradeCost') || 80;
 
-function updateCookieUI() {
-  document.getElementById('cookies').textContent = cookies;
-  document.getElementById('cookieUpgradeCost').textContent = cookieUpgradeCost;
-  document.getElementById('bakerCost').textContent = bakerCost;
-}
+    function hireAlien() {
+      if (energy >= alienCost) {
+        energy -= alienCost;
+        aliens++;
+        alienCost = Math.floor(alienCost * 1.5);
+        updateAlienUI();
+      }
+    }
 
-// Alien Tycoon Game
-let energy = +localStorage.getItem('energy') || 0;
-let aliens = +localStorage.getItem('aliens') || 0;
-let alienCost = +localStorage.getItem('alienCost') || 30;
-let spaceshipPower = +localStorage.getItem('spaceshipPower') || 1;
-let spaceshipUpgradeCost = +localStorage.getItem('spaceshipUpgradeCost') || 80;
+    function upgradeSpaceship() {
+      if (energy >= spaceshipUpgradeCost) {
+        energy -= spaceshipUpgradeCost;
+        spaceshipUpgradeCost = Math.floor(spaceshipUpgradeCost * 2);
+        updateAlienUI();
+      }
+    }
 
-function hireAlien() {
-  if (energy >= alienCost) {
-    energy -= alienCost;
-    aliens++;
-    alienCost = Math.floor(alienCost * 1.5);
-    updateAlienUI();
-  }
-}
+    function updateAlienUI() {
+      document.getElementById('energy').textContent = energy;
+      document.getElementById('aliens').textContent = aliens;
+      document.getElementById('alienCost').textContent = alienCost;
+      document.getElementById('spaceshipUpgradeCost').textContent = spaceshipUpgradeCost;
+    }
 
-function upgradeSpaceship() {
-  if (energy >= spaceshipUpgradeCost) {
-    energy -= spaceshipUpgradeCost;
-    spaceshipPower++;
-    spaceshipUpgradeCost = Math.floor(spaceshipUpgradeCost * 2);
-    updateAlienUI();
-  }
-}
+    setInterval(() => {
+      energy += aliens;
+      updateAlienUI();
+    }, 1000);
 
-setInterval(() => {
-  energy += aliens * spaceshipPower;
-  updateAlienUI();
-}, 1000);
+    function saveGame() {
+      // Save all game data to localStorage
+      localStorage.setItem('gems', gems);
+      localStorage.setItem('gemsPerClick', gemsPerClick);
+      localStorage.setItem('gemUpgradeCost', gemUpgradeCost);
+      localStorage.setItem('autoClickers', autoClickers);
+      localStorage.setItem('autoClickerCost', autoClickerCost);
+      localStorage.setItem('money', money);
+      localStorage.setItem('miners', miners);
+      localStorage.setItem('minerPower', minerPower);
+      localStorage.setItem('minerCost', minerCost);
+      localStorage.setItem('minerUpgradeCost', minerUpgradeCost);
+      localStorage.setItem('cookies', cookies);
+      localStorage.setItem('cookiesPerClick', cookiesPerClick);
+      localStorage.setItem('cookieUpgradeCost', cookieUpgradeCost);
+      localStorage.setItem('bakers', bakers);
+      localStorage.setItem('bakerCost', bakerCost);
+      localStorage.setItem('energy', energy);
+      localStorage.setItem('aliens', aliens);
+      localStorage.setItem('alienCost', alienCost);
+      localStorage.setItem('spaceshipUpgradeCost', spaceshipUpgradeCost);
+    }
 
-function updateAlienUI() {
-  document.getElementById('energy').textContent = energy;
-  document.getElementById('aliens').textContent = aliens;
-  document.getElementById('alienCost').textContent = alienCost;
-  document.getElementById('spaceshipUpgradeCost').textContent = spaceshipUpgradeCost;
-}
-
-
-function saveGame() {
-  // Existing saves...
-  localStorage.setItem('gems', gems);
-  localStorage.setItem('gemsPerClick', gemsPerClick);
-  localStorage.setItem('gemUpgradeCost', gemUpgradeCost);
-  localStorage.setItem('autoClickers', autoClickers);
-  localStorage.setItem('autoClickerCost', autoClickerCost);
-  localStorage.setItem('money', money);
-  localStorage.setItem('miners', miners);
-  localStorage.setItem('minerPower', minerPower);
-  localStorage.setItem('minerCost', minerCost);
-  localStorage.setItem('minerUpgradeCost', minerUpgradeCost);
-
-  // New game saves
-  localStorage.setItem('cookies', cookies);
-  localStorage.setItem('cookiesPerClick', cookiesPerClick);
-  localStorage.setItem('cookieUpgradeCost', cookieUpgradeCost);
-  localStorage.setItem('bakers', bakers);
-  localStorage.setItem('bakerCost', bakerCost);
-
-  localStorage.setItem('energy', energy);
-  localStorage.setItem('aliens', aliens);
-  localStorage.setItem('alienCost', alienCost);
-  localStorage.setItem('spaceshipPower', spaceshipPower);
-  localStorage.setItem('spaceshipUpgradeCost', spaceshipUpgradeCost);
-}
-
-
-    updateClickerUI();
-    updateSimulatorUI();
+    window.onbeforeunload = saveGame;
   </script>
 </body>
 </html>
