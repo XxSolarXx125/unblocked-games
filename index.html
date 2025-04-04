@@ -1,0 +1,161 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Solar Games</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #111;
+      color: #fff;
+      text-align: center;
+    }
+    .container {
+      padding: 20px;
+    }
+    h1 {
+      color: #9b59b6;
+    }
+    button {
+      padding: 15px 30px;
+      margin: 10px;
+      font-size: 16px;
+      background: #e74c3c;
+      border: none;
+      color: #fff;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #c0392b;
+    }
+    .game {
+      display: none;
+    }
+    .upgrade {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Solar Games</h1>
+    <div id="menu">
+      <button onclick="showGame('clicker')">Play Gem Clicker</button>
+      <button onclick="showGame('simulator')">Play Miner Inc</button>
+    </div>
+
+    <!-- Clicker Game -->
+    <div id="clicker" class="game">
+      <h2>Gem Clicker 💎</h2>
+      <p>Gems: <span id="gems">0</span></p>
+      <button onclick="mineGem()">Click the Gem</button>
+      <div class="upgrade">
+        <button onclick="buyGemUpgrade()">Upgrade Click (Cost: <span id="gemUpgradeCost">10</span>)</button>
+      </div>
+      <br><br>
+      <button onclick="goBack()">🔙 Back</button>
+    </div>
+
+    <!-- Simulator Game -->
+    <div id="simulator" class="game">
+      <h2>Miner Inc ⛏️</h2>
+      <p>Money: $<span id="money">0</span></p>
+      <p>Miners: <span id="miners">0</span></p>
+      <button onclick="hireMiner()">Hire Miner ($<span id="minerCost">20</span>)</button>
+      <br>
+      <div class="upgrade">
+        <button onclick="buyMinerUpgrade()">Upgrade Miner Power ($<span id="minerUpgradeCost">50</span>)</button>
+      </div>
+      <br><br>
+      <button onclick="goBack()">🔙 Back</button>
+    </div>
+  </div>
+
+  <script>
+    // === General ===
+    function showGame(game) {
+      document.getElementById('menu').style.display = 'none';
+      document.querySelectorAll('.game').forEach(g => g.style.display = 'none');
+      document.getElementById(game).style.display = 'block';
+    }
+    function goBack() {
+      document.getElementById('menu').style.display = 'block';
+      document.querySelectorAll('.game').forEach(g => g.style.display = 'none');
+      saveGame();
+    }
+
+    // === Gem Clicker ===
+    let gems = +localStorage.getItem('gems') || 0;
+    let gemsPerClick = +localStorage.getItem('gemsPerClick') || 1;
+    let gemUpgradeCost = +localStorage.getItem('gemUpgradeCost') || 10;
+
+    function mineGem() {
+      gems += gemsPerClick;
+      updateClickerUI();
+    }
+    function buyGemUpgrade() {
+      if (gems >= gemUpgradeCost) {
+        gems -= gemUpgradeCost;
+        gemsPerClick++;
+        gemUpgradeCost = Math.floor(gemUpgradeCost * 1.5);
+        updateClickerUI();
+      }
+    }
+    function updateClickerUI() {
+      document.getElementById('gems').textContent = gems;
+      document.getElementById('gemUpgradeCost').textContent = gemUpgradeCost;
+    }
+
+    // === Miner Simulator ===
+    let money = +localStorage.getItem('money') || 0;
+    let miners = +localStorage.getItem('miners') || 0;
+    let minerPower = +localStorage.getItem('minerPower') || 1;
+    let minerCost = +localStorage.getItem('minerCost') || 20;
+    let minerUpgradeCost = +localStorage.getItem('minerUpgradeCost') || 50;
+
+    function hireMiner() {
+      if (money >= minerCost) {
+        money -= minerCost;
+        miners++;
+        minerCost = Math.floor(minerCost * 1.5);
+        updateSimulatorUI();
+      }
+    }
+    function buyMinerUpgrade() {
+      if (money >= minerUpgradeCost) {
+        money -= minerUpgradeCost;
+        minerPower++;
+        minerUpgradeCost = Math.floor(minerUpgradeCost * 2);
+        updateSimulatorUI();
+      }
+    }
+    function updateSimulatorUI() {
+      document.getElementById('money').textContent = Math.floor(money);
+      document.getElementById('miners').textContent = miners;
+      document.getElementById('minerCost').textContent = minerCost;
+      document.getElementById('minerUpgradeCost').textContent = minerUpgradeCost;
+    }
+    setInterval(() => {
+      money += miners * minerPower;
+      updateSimulatorUI();
+    }, 1000);
+
+    // === Save Progress ===
+    function saveGame() {
+      localStorage.setItem('gems', gems);
+      localStorage.setItem('gemsPerClick', gemsPerClick);
+      localStorage.setItem('gemUpgradeCost', gemUpgradeCost);
+      localStorage.setItem('money', money);
+      localStorage.setItem('miners', miners);
+      localStorage.setItem('minerPower', minerPower);
+      localStorage.setItem('minerCost', minerCost);
+      localStorage.setItem('minerUpgradeCost', minerUpgradeCost);
+    }
+
+    updateClickerUI();
+    updateSimulatorUI();
+  </script>
+</body>
+</html>
