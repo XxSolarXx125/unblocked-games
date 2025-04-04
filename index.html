@@ -75,6 +75,18 @@ button:hover {
   <button onclick="goBack()">🔙 Back</button>
 </div>
 
+<div id="dungeon" class="game">
+  <h2>Dungeon Exploration ⚔️</h2>
+  <p>Gold: 💰<span id="gold">0</span></p>
+  <img src="images/monster.png" alt="Monster" class="clicker-image" onclick="fightMonster()">
+  <div class="upgrade">
+    <button onclick="buySword()">Buy Sword (Cost: <span id="swordCost">40</span>)</button>
+    <button onclick="buyShield()">Buy Shield (Cost: <span id="shieldCost">100</span>)</button>
+  </div>
+  <br><br>
+  <button onclick="goBack()">🔙 Back</button>
+</div>
+
     <!-- Clicker Game -->
     <div id="clicker" class="game">
       <h2>Gem Clicker 💎</h2>
@@ -103,6 +115,18 @@ button:hover {
       <br><br>
       <button onclick="goBack()">🔙 Back</button>
     </div>
+
+<div id="space-mining" class="game">
+  <h2>Space Mining 🚀</h2>
+  <p>Ore: <span id="ore">0</span></p>
+  <img src="images/asteroid.png" alt="Asteroid" class="clicker-image" onclick="mineOre()">
+  <div class="upgrade">
+    <button onclick="buyLaser()">Upgrade Laser (Cost: <span id="laserCost">50</span>)</button>
+    <button onclick="hirePilot()">Hire Pilot (Cost: <span id="pilotCost">200</span>)</button>
+  </div>
+  <br><br>
+  <button onclick="goBack()">🔙 Back</button>
+</div>
 
 <div id="robot" class="game">
   <h2>Robot Factory 🤖</h2>
@@ -262,6 +286,41 @@ setInterval(() => {
   potions += alchemists;
   updatePotionUI();
 }, 1000);
+
+  let gold = +localStorage.getItem('gold') || 0;
+  let swordPower = +localStorage.getItem('swordPower') || 1;
+  let swordCost = +localStorage.getItem('swordCost') || 40;
+  let shieldPower = +localStorage.getItem('shieldPower') || 1;
+  let shieldCost = +localStorage.getItem('shieldCost') || 100;
+
+  function fightMonster() {
+    gold += swordPower * shieldPower;
+    updateDungeonUI();
+  }
+
+  function buySword() {
+    if (gold >= swordCost) {
+      gold -= swordCost;
+      swordPower++;
+      swordCost = Math.floor(swordCost * 1.6);
+      updateDungeonUI();
+    }
+  }
+
+  function buyShield() {
+    if (gold >= shieldCost) {
+      gold -= shieldCost;
+      shieldPower++;
+      shieldCost = Math.floor(shieldCost * 1.7);
+      updateDungeonUI();
+    }
+  }
+
+  function updateDungeonUI() {
+    document.getElementById('gold').textContent = gold;
+    document.getElementById('swordCost').textContent = swordCost;
+    document.getElementById('shieldCost').textContent = shieldCost;
+  }
 
 let burgers = +localStorage.getItem('burgers') || 0;
 let grillPower = +localStorage.getItem('grillPower') || 1;
@@ -477,6 +536,46 @@ setInterval(() => {
       cookies += bakers;
       updateCookieUI();
     }, 1000);
+
+  let ore = +localStorage.getItem('ore') || 0;
+  let laserPower = +localStorage.getItem('laserPower') || 1;
+  let laserCost = +localStorage.getItem('laserCost') || 50;
+  let pilots = +localStorage.getItem('pilots') || 0;
+  let pilotCost = +localStorage.getItem('pilotCost') || 200;
+
+  function mineOre() {
+    ore += laserPower;
+    updateSpaceMiningUI();
+  }
+
+  function buyLaser() {
+    if (ore >= laserCost) {
+      ore -= laserCost;
+      laserPower++;
+      laserCost = Math.floor(laserCost * 1.5);
+      updateSpaceMiningUI();
+    }
+  }
+
+  function hirePilot() {
+    if (ore >= pilotCost) {
+      ore -= pilotCost;
+      pilots++;
+      pilotCost = Math.floor(pilotCost * 1.8);
+      updateSpaceMiningUI();
+    }
+  }
+
+  function updateSpaceMiningUI() {
+    document.getElementById('ore').textContent = ore;
+    document.getElementById('laserCost').textContent = laserCost;
+    document.getElementById('pilotCost').textContent = pilotCost;
+  }
+
+  setInterval(() => {
+    ore += pilots;
+    updateSpaceMiningUI();
+  }, 1000);
 
     // Alien Tycoon
     let energy = +localStorage.getItem('energy') || 0;
