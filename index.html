@@ -49,6 +49,7 @@
 </head>
 <body>
   <div class="container">
+  <p id="playTime">Play Time: 0s</p>
     <h1>Solar Games</h1>
     <div id="menu">
       <button onclick="showGame('clicker')">Play Gem Clicker</button>
@@ -194,6 +195,23 @@
       document.getElementById('gemUpgradeCost').textContent = gemUpgradeCost;
       document.getElementById('autoClickerCost').textContent = autoClickerCost;
     }
+
+let playSeconds = +localStorage.getItem('playSeconds') || 0;
+
+function updatePlayTime() {
+  playSeconds++;
+  localStorage.setItem('playSeconds', playSeconds);
+  
+  const hours = Math.floor(playSeconds / 3600);
+  const minutes = Math.floor((playSeconds % 3600) / 60);
+  const seconds = playSeconds % 60;
+  
+  document.getElementById('playTime').textContent = 
+    `Play Time: ${hours > 0 ? hours + 'h ' : ''}${minutes > 0 ? minutes + 'm ' : ''}${seconds}s`;
+}
+
+setInterval(updatePlayTime, 1000);
+
 
 let parts = +localStorage.getItem('parts') || 0;
 let toolPower = +localStorage.getItem('toolPower') || 1;
