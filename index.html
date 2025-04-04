@@ -10,7 +10,7 @@
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
       background: url('images/background.png') no-repeat center center fixed;
-      background-size: 158%;
+      background-size: 90%;
       color: #fff;
       text-align: center;
     }
@@ -55,6 +55,8 @@
       <button onclick="showGame('simulator')">Play Miner Inc</button>
       <button onclick="showGame('cookie')">Play Cookie Craze</button>
       <button onclick="showGame('alien')">Play Alien Tycoon</button>
+	  <button onclick="showGame('farm')">Play Pixel Farm</button>
+	  <button onclick="showGame('robot')">Play Robot Factory</button>
     </div>
 
     <!-- Clicker Game -->
@@ -85,6 +87,30 @@
       <br><br>
       <button onclick="goBack()">🔙 Back</button>
     </div>
+
+<div id="robot" class="game">
+  <h2>Robot Factory 🤖</h2>
+  <p>Parts: <span id="parts">0</span></p>
+  <img src="images/robot.png" alt="Robot Part" class="clicker-image" onclick="collectPart()">
+  <div class="upgrade">
+    <button onclick="upgradeTool()">Upgrade Tool (Cost: <span id="toolCost">25</span>)</button>
+    <button onclick="hireEngineer()">Hire Engineer (Cost: <span id="engineerCost">200</span>)</button>
+  </div>
+  <br><br>
+  <button onclick="goBack()">🔙 Back</button>
+</div>
+
+<div id="farm" class="game">
+  <h2>Pixel Farm 🌾</h2>
+  <p>Wheat: <span id="wheat">0</span></p>
+  <img src="images/farm.png" alt="Wheat Field" class="clicker-image" onclick="harvestWheat()">
+  <div class="upgrade">
+    <button onclick="buyTractor()">Buy Tractor (Cost: <span id="tractorCost">20</span>)</button>
+    <button onclick="buyAutoFarmer()">Hire Auto Farmer (Cost: <span id="farmerCost">150</span>)</button>
+  </div>
+  <br><br>
+  <button onclick="goBack()">🔙 Back</button>
+</div>
 
     <!-- Cookie Craze Game -->
     <div id="cookie" class="game">
@@ -168,6 +194,86 @@
       document.getElementById('gemUpgradeCost').textContent = gemUpgradeCost;
       document.getElementById('autoClickerCost').textContent = autoClickerCost;
     }
+
+let parts = +localStorage.getItem('parts') || 0;
+let toolPower = +localStorage.getItem('toolPower') || 1;
+let toolCost = +localStorage.getItem('toolCost') || 25;
+let engineers = +localStorage.getItem('engineers') || 0;
+let engineerCost = +localStorage.getItem('engineerCost') || 200;
+
+function collectPart() {
+  parts += toolPower;
+  updateRobotUI();
+}
+
+function upgradeTool() {
+  if (parts >= toolCost) {
+    parts -= toolCost;
+    toolPower++;
+    toolCost = Math.floor(toolCost * 1.5);
+    updateRobotUI();
+  }
+}
+
+function hireEngineer() {
+  if (parts >= engineerCost) {
+    parts -= engineerCost;
+    engineers++;
+    engineerCost = Math.floor(engineerCost * 1.8);
+    updateRobotUI();
+  }
+}
+
+function updateRobotUI() {
+  document.getElementById('parts').textContent = parts;
+  document.getElementById('toolCost').textContent = toolCost;
+  document.getElementById('engineerCost').textContent = engineerCost;
+}
+
+setInterval(() => {
+  parts += engineers;
+  updateRobotUI();
+}, 1000);
+
+let wheat = +localStorage.getItem('wheat') || 0;
+let tractorPower = +localStorage.getItem('tractorPower') || 1;
+let tractorCost = +localStorage.getItem('tractorCost') || 20;
+let autoFarmers = +localStorage.getItem('autoFarmers') || 0;
+let farmerCost = +localStorage.getItem('farmerCost') || 150;
+
+function harvestWheat() {
+  wheat += tractorPower;
+  updateFarmUI();
+}
+
+function buyTractor() {
+  if (wheat >= tractorCost) {
+    wheat -= tractorCost;
+    tractorPower++;
+    tractorCost = Math.floor(tractorCost * 1.6);
+    updateFarmUI();
+  }
+}
+
+function buyAutoFarmer() {
+  if (wheat >= farmerCost) {
+    wheat -= farmerCost;
+    autoFarmers++;
+    farmerCost = Math.floor(farmerCost * 1.7);
+    updateFarmUI();
+  }
+}
+
+function updateFarmUI() {
+  document.getElementById('wheat').textContent = wheat;
+  document.getElementById('tractorCost').textContent = tractorCost;
+  document.getElementById('farmerCost').textContent = farmerCost;
+}
+
+setInterval(() => {
+  wheat += autoFarmers;
+  updateFarmUI();
+}, 1000);
 
     // Miner Simulator
     let money = +localStorage.getItem('money') || 0;
@@ -303,6 +409,11 @@
       localStorage.setItem('aliens', aliens);
       localStorage.setItem('alienCost', alienCost);
       localStorage.setItem('spaceshipUpgradeCost', spaceshipUpgradeCost);
+	  localStorage.setItem('wheat', wheat);
+	  localStorage.setItem('tractorPower', tractorPower);
+	  localStorage.setItem('tractorCost', tractorCost);
+	  localStorage.setItem('autoFarmers', autoFarmers);
+	  localStorage.setItem('farmerCost', farmerCost);
     }
 
     window.onbeforeunload = saveGame;
