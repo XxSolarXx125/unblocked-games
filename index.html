@@ -64,6 +64,27 @@ button:hover {
 <button onclick="showGame('space-mining')">Play Space Mining</button>
 <button onclick="showGame('dungeon')">Play Dungeon Exploration</button>
     </div>
+	
+	<div id="adminPanel" style="display: none; position: absolute; top: 20px; left: 20px; background-color: rgba(0, 0, 0, 0.8); color: white; padding: 10px;">
+  <h2>Admin Panel</h2>
+  <button onclick="resetGameProgress()">Reset Game Progress</button>
+  <br><br>
+  <h3>Give Currency to Game</h3>
+  <select id="gameSelect">
+    <option value="gemClicker">Gem Clicker</option>
+    <option value="potionBrew">Potion Brew</option>
+    <option value="dungeonFight">Dungeon Fight</option>
+    <option value="burgerGrill">Burger Grill</option>
+    <option value="robotCollect">Robot Collect</option>
+    <option value="farmHarvest">Farm Harvest</option>
+    <option value="minerSimulator">Miner Simulator</option>
+    <option value="cookieCraze">Cookie Craze</option>
+    <option value="spaceMining">Space Mining</option>
+    <option value="alienTycoon">Alien Tycoon</option>
+  </select>
+  <input type="number" id="currencyAmount" placeholder="Amount" />
+  <button onclick="giveCurrency(document.getElementById('gameSelect').value, document.getElementById('currencyAmount').value)">Give Currency</button>
+</div>
 
 <div id="potion" class="game">
   <h2>Potion Lab 🧪</h2>
@@ -578,6 +599,73 @@ setInterval(() => {
     ore += pilots;
     updateSpaceMiningUI();
   }, 1000);
+
+
+  let adminPanelVisible = false;
+
+  // Toggle Admin Panel
+  function toggleAdminPanel() {
+    adminPanelVisible = !adminPanelVisible;
+    const adminPanel = document.getElementById('adminPanel');
+    adminPanel.style.display = adminPanelVisible ? 'block' : 'none';
+  }
+
+  // Reset all games' progress
+  function resetGameProgress() {
+    localStorage.clear();
+    alert("Game progress has been reset!");
+    location.reload();  // Reload the page to apply changes
+  }
+
+  // Give a specific amount of currency in any game
+  function giveCurrency(game, amount) {
+    switch (game) {
+      case 'gemClicker':
+        localStorage.setItem('gems', amount);
+        break;
+      case 'potionBrew':
+        localStorage.setItem('potions', amount);
+        break;
+      case 'dungeonFight':
+        localStorage.setItem('gold', amount);
+        break;
+      case 'burgerGrill':
+        localStorage.setItem('burgers', amount);
+        break;
+      case 'robotCollect':
+        localStorage.setItem('parts', amount);
+        break;
+      case 'farmHarvest':
+        localStorage.setItem('wheat', amount);
+        break;
+      case 'minerSimulator':
+        localStorage.setItem('money', amount);
+        break;
+      case 'cookieCraze':
+        localStorage.setItem('cookies', amount);
+        break;
+      case 'spaceMining':
+        localStorage.setItem('ore', amount);
+        break;
+      case 'alienTycoon':
+        localStorage.setItem('energy', amount);
+        break;
+      default:
+        alert('Unknown game.');
+        return;
+    }
+    alert(`${game} currency has been set to ${amount}`);
+  }
+
+  // Listen for the "0" and "9" keys to toggle the admin panel visibility
+  document.addEventListener('keydown', function(event) {
+    if (event.key === '0') {
+      toggleAdminPanel();
+    }
+    if (event.key === '9') {
+      toggleAdminPanel();
+    }
+  });
 
     // Alien Tycoon
     let energy = +localStorage.getItem('energy') || 0;
