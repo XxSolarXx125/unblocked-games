@@ -63,7 +63,6 @@ button:hover {
 <button onclick="showGame('potion')">Play Potion Lab</button>
 <button onclick="showGame('space-mining')">Play Space Mining</button>
 <button onclick="showGame('dungeon')">Play Dungeon Exploration</button>
-<button onclick="showGame('flappy')">Play Flappy Bird</button>
     </div>
 	
 <div id="adminPanel" style="display: none; position: absolute; top: 20px; left: 20px; background-color: rgba(0, 0, 0, 0.8); color: white; padding: 10px;">
@@ -204,7 +203,7 @@ button:hover {
     </div>
 
 <!-- Flappy Bird Game -->
-<div id="flappyBirdGame" class="game" style="display: none; position: relative; width: 300px; height: 500px; background-color: #70c5ce;">
+<div id="flappyBirdGame" style="display: none; position: relative; width: 300px; height: 500px; background-color: #70c5ce;">
   <canvas id="flappyCanvas" width="300" height="500"></canvas>
   <br>
   <button onclick="startFlappyBirdGame()">Start Flappy Bird</button>
@@ -238,20 +237,6 @@ button:hover {
       document.querySelectorAll('.game').forEach(g => g.style.display = 'none');
       saveGame();
     }
-
-function showGame(game) {
-  // Hide all other games
-  document.querySelectorAll('.game').forEach(function(gameElement) {
-    gameElement.style.display = 'none';
-  });
-
-  // Show the selected game
-  if (game === 'flappy') {
-    document.getElementById('flappyBirdGame').style.display = 'block';
-  } else {
-    document.getElementById(game + 'Game').style.display = 'block';
-  }
-}
 
     // Gem Clicker Game
     let gems = +localStorage.getItem('gems') || 0;
