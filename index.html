@@ -33,6 +33,38 @@ button {
   cursor: pointer;
 }
 
+.credits-btn {
+  position: fixed;
+  bottom: 15px;
+  left: 15px;
+  background-color: #001f3f;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  z-index: 999;
+}
+
+.credits-btn:hover {
+  background-color: #003366;
+}
+
+#creditsMessage {
+  position: fixed;
+  bottom: 60px;
+  left: 15px;
+  background-color: #111;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 10px;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+  pointer-events: none;
+  z-index: 998;
+}
+
 button:hover {
   background: #001f4d; /* Even darker blue for hover effect */
 }
@@ -50,18 +82,17 @@ button:hover {
 </head>
 <body>
   <div class="container">
-  <p id="playTime">Play Time: 0s</p>
+    <p id="playTime">Play Time: 0s</p>
     <h1>Solar Games</h1>
     <div id="menu">
       <button onclick="showGame('clicker')">Play Gem Clicker</button>
       <button onclick="showGame('simulator')">Play Miner Inc</button>
-      <button onclick="showGame('cookie')">Play Cookie Craze</button>
+      <button onclick="showGame('cookie')">Play Cookie Clicker</button>
       <button onclick="showGame('alien')">Play Alien Tycoon</button>
-	  <button onclick="showGame('farm')">Play Pixel Farm</button>
-	  <button onclick="showGame('robot')">Play Robot Factory</button>
+      <button onclick="showGame('farm')">Play Pixel Farm</button>
+      <button onclick="showGame('robot')">Play Robot Factory</button>
 	  <button onclick="showGame('burger')">Play Burger Empire</button>
 	  <button onclick="showGame('potion')">Play Potion Lab</button>
-    </div>
 
 <div id="potion" class="game">
   <h2>Potion Lab 🧪</h2>
@@ -70,6 +101,18 @@ button:hover {
   <div class="upgrade">
     <button onclick="upgradeCauldron()">Upgrade Cauldron (Cost: <span id="cauldronCost">30</span>)</button>
     <button onclick="hireAlchemist()">Hire Alchemist (Cost: <span id="alchemistCost">180</span>)</button>
+  </div>
+  <br><br>
+  <button onclick="goBack()">🔙 Back</button>
+</div>
+
+<div id="space-mining" class="game">
+  <h2>Space Mining 🚀</h2>
+  <p>Ore: <span id="ore">0</span></p>
+  <img src="images/asteroid.png" alt="Asteroid" class="clicker-image" onclick="mineOre()">
+  <div class="upgrade">
+    <button onclick="buyLaser()">Upgrade Laser (Cost: <span id="laserCost">50</span>)</button>
+    <button onclick="hirePilot()">Hire Pilot (Cost: <span id="pilotCost">200</span>)</button>
   </div>
   <br><br>
   <button onclick="goBack()">🔙 Back</button>
@@ -131,7 +174,7 @@ button:hover {
 <div id="burger" class="game">
   <h2>Burger Empire 🍔</h2>
   <p>Burgers: <span id="burgers">0</span></p>
-  <img src="images/Burger.png" alt="Burger" class="clicker-image" onclick="grillBurger()">
+  <img src="images/burger.png" alt="Burger" class="clicker-image" onclick="grillBurger()">
   <div class="upgrade">
     <button onclick="buyGrill()">Buy Grill (Cost: <span id="grillCost">25</span>)</button>
     <button onclick="hireChef()">Hire Chef (Cost: <span id="chefCost">150</span>)</button>
@@ -152,6 +195,18 @@ button:hover {
       <br><br>
       <button onclick="goBack()">🔙 Back</button>
     </div>
+	
+	<div id="dungeon" class="game">
+  <h2>Dungeon Exploration ⚔️</h2>
+  <p>Gold: 💰<span id="gold">0</span></p>
+  <img src="images/monster.png" alt="Monster" class="clicker-image" onclick="fightMonster()">
+  <div class="upgrade">
+    <button onclick="buySword()">Buy Sword (Cost: <span id="swordCost">40</span>)</button>
+    <button onclick="buyShield()">Buy Shield (Cost: <span id="shieldCost">100</span>)</button>
+  </div>
+  <br><br>
+  <button onclick="goBack()">🔙 Back</button>
+</div>
 
     <!-- Alien Tycoon Game -->
     <div id="alien" class="game">
@@ -262,6 +317,81 @@ setInterval(() => {
   potions += alchemists;
   updatePotionUI();
 }, 1000);
+
+  let gold = +localStorage.getItem('gold') || 0;
+  let swordPower = +localStorage.getItem('swordPower') || 1;
+  let swordCost = +localStorage.getItem('swordCost') || 40;
+  let shieldPower = +localStorage.getItem('shieldPower') || 1;
+  let shieldCost = +localStorage.getItem('shieldCost') || 100;
+
+  function fightMonster() {
+    gold += swordPower * shieldPower;
+    updateDungeonUI();
+  }
+
+  function buySword() {
+    if (gold >= swordCost) {
+      gold -= swordCost;
+      swordPower++;
+      swordCost = Math.floor(swordCost * 1.6);
+      updateDungeonUI();
+    }
+  }
+
+  function buyShield() {
+    if (gold >= shieldCost) {
+      gold -= shieldCost;
+      shieldPower++;
+      shieldCost = Math.floor(shieldCost * 1.7);
+      updateDungeonUI();
+    }
+  }
+
+  function updateDungeonUI() {
+    document.getElementById('gold').textContent = gold;
+    document.getElementById('swordCost').textContent = swordCost;
+    document.getElementById('shieldCost').textContent = shieldCost;
+  }
+
+  let ore = +localStorage.getItem('ore') || 0;
+  let laserPower = +localStorage.getItem('laserPower') || 1;
+  let laserCost = +localStorage.getItem('laserCost') || 50;
+  let pilots = +localStorage.getItem('pilots') || 0;
+  let pilotCost = +localStorage.getItem('pilotCost') || 200;
+
+  function mineOre() {
+    ore += laserPower;
+    updateSpaceMiningUI();
+  }
+
+  function buyLaser() {
+    if (ore >= laserCost) {
+      ore -= laserCost;
+      laserPower++;
+      laserCost = Math.floor(laserCost * 1.5);
+      updateSpaceMiningUI();
+    }
+  }
+
+  function hirePilot() {
+    if (ore >= pilotCost) {
+      ore -= pilotCost;
+      pilots++;
+      pilotCost = Math.floor(pilotCost * 1.8);
+      updateSpaceMiningUI();
+    }
+  }
+
+  function updateSpaceMiningUI() {
+    document.getElementById('ore').textContent = ore;
+    document.getElementById('laserCost').textContent = laserCost;
+    document.getElementById('pilotCost').textContent = pilotCost;
+  }
+
+  setInterval(() => {
+    ore += pilots;
+    updateSpaceMiningUI();
+  }, 1000);
 
 let burgers = +localStorage.getItem('burgers') || 0;
 let grillPower = +localStorage.getItem('grillPower') || 1;
@@ -477,6 +607,14 @@ setInterval(() => {
       cookies += bakers;
       updateCookieUI();
     }, 1000);
+
+  function showCredits() {
+    const msg = document.getElementById("creditsMessage");
+    msg.style.opacity = 1;
+    setTimeout(() => {
+      msg.style.opacity = 0;
+    }, 3000); // Fades out after 3 seconds
+  }
 
     // Alien Tycoon
     let energy = +localStorage.getItem('energy') || 0;
