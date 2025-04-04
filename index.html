@@ -63,6 +63,7 @@ button:hover {
 <button onclick="showGame('potion')">Play Potion Lab</button>
 <button onclick="showGame('space-mining')">Play Space Mining</button>
 <button onclick="showGame('dungeon')">Play Dungeon Exploration</button>
+<button onclick="showGame('flappy')">Play Flappy Bird</button>
     </div>
 	
 <div id="adminPanel" style="display: none; position: absolute; top: 20px; left: 20px; background-color: rgba(0, 0, 0, 0.8); color: white; padding: 10px;">
@@ -202,6 +203,13 @@ button:hover {
       <button onclick="goBack()">🔙 Back</button>
     </div>
 
+<!-- Flappy Bird Game -->
+<div id="flappyBirdGame" class="game" style="display: none; position: relative; width: 300px; height: 500px; background-color: #70c5ce;">
+  <canvas id="flappyCanvas" width="300" height="500"></canvas>
+  <br>
+  <button onclick="startFlappyBirdGame()">Start Flappy Bird</button>
+</div>
+
     <!-- Alien Tycoon Game -->
     <div id="alien" class="game">
       <h2>Alien Tycoon 👽</h2>
@@ -230,6 +238,20 @@ button:hover {
       document.querySelectorAll('.game').forEach(g => g.style.display = 'none');
       saveGame();
     }
+
+function showGame(game) {
+  // Hide all other games
+  document.querySelectorAll('.game').forEach(function(gameElement) {
+    gameElement.style.display = 'none';
+  });
+
+  // Show the selected game
+  if (game === 'flappy') {
+    document.getElementById('flappyBirdGame').style.display = 'block';
+  } else {
+    document.getElementById(game + 'Game').style.display = 'block';
+  }
+}
 
     // Gem Clicker Game
     let gems = +localStorage.getItem('gems') || 0;
@@ -602,6 +624,95 @@ setInterval(() => {
     updateSpaceMiningUI();
   }, 1000);
 
+<script>
+// Flappy Bird Game Implementation
+let bird, pipes = [], score = 0, gameInterval, birdYVelocity = 0, gravity = 0.6;
+let canvas, ctx;
+
+function startFlappyBirdGame() {
+  document.getElementById("flappyBirdGame").style.display = "block";
+  canvas = document.getElementById("flappyCanvas");
+  ctx = canvas.getContext("2d");
+
+  bird = { x: 50, y: 150, width: 30, height: 30 };
+  birdYVelocity = 0;
+  score = 0;
+  pipes = [];
+  clearInterval(gameInterval);
+  gameInterval = setInterval(gameLoop, 1000 / 60);
+  window.addEventListener('keydown', handleJump);
+  spawnPipe();
+}
+
+function gameLoop() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  birdYVelocity += gravity;
+  bird.y += birdYVelocity;
+
+  if (bird.y + bird.height >= canvas.height || bird.y <= 0) {
+    endGame();
+  }
+
+  // Draw the bird
+  ctx.fillStyle = "yellow";
+  ctx.fillRect(bird.x, bird.y, bird.width, bird.height);
+
+  // Update pipes and score
+  handlePipes();
+  drawScore();
+}
+
+function handleJump(e) {
+  if (e.code === "Space") {
+    birdYVelocity = -10;
+  }
+}
+
+function spawnPipe() {
+  let gap = 100;
+  let pipeHeight = Math.floor(Math.random() * (canvas.height - gap));
+  pipes.push({ x: canvas.width, y: pipeHeight, width: 50, gap: gap });
+
+  setTimeout(spawnPipe, 3000); // Spawn a new pipe every 3 seconds
+}
+
+function handlePipes() {
+  pipes.forEach((pipe, index) => {
+    pipe.x -= 3;
+
+    if (pipe.x + pipe.width < 0) {
+      pipes.splice(index, 1);
+      score++;
+    }
+
+    // Draw pipes
+    ctx.fillStyle = "green";
+    ctx.fillRect(pipe.x, 0, pipe.width, pipe.y);
+    ctx.fillRect(pipe.x, pipe.y + pipe.gap, pipe.width, canvas.height - pipe.y - pipe.gap);
+
+    // Check for collisions
+    if (
+      bird.x + bird.width > pipe.x &&
+      bird.x < pipe.x + pipe.width &&
+      (bird.y < pipe.y || bird.y + bird.height > pipe.y + pipe.gap)
+    ) {
+      endGame();
+    }
+  });
+}
+
+function drawScore() {
+  ctx.fillStyle = "black";
+  ctx.font = "20px Arial";
+  ctx.fillText("Score: " + score, 10, 30);
+}
+
+function endGame() {
+  clearInterval(gameInterval);
+  alert("Game Over! Your score is " + score);
+  document.getElementById("flappyBirdGame").style.display = "none";
+}
 
   let adminPanelVisible = false;
 
