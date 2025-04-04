@@ -91,7 +91,7 @@ button:hover {
 <div id="potion" class="game">
   <h2>Potion Lab 🧪</h2>
   <p>Potions: <span id="potions">0</span></p>
-  <img src="images/potion.png" alt="Potion" class="clicker-image" onclick="brewPotion()">
+  <img src="images/potion.png" alt="Potion" class="clicker-image" onclick="brewPotion()" width="1000" height="150">
   <div class="upgrade">
     <button onclick="upgradeCauldron()">Upgrade Cauldron (Cost: <span id="cauldronCost">30</span>)</button>
     <button onclick="hireAlchemist()">Hire Alchemist (Cost: <span id="alchemistCost">180</span>)</button>
@@ -103,7 +103,7 @@ button:hover {
 <div id="dungeon" class="game">
   <h2>Dungeon Exploration ⚔️</h2>
   <p>Gold: 💰<span id="gold">0</span></p>
-  <img src="images/monster.png" alt="Monster" class="clicker-image" onclick="fightMonster()">
+  <img src="images/monster.png" alt="Monster" class="clicker-image" onclick="fightMonster()" width="1000" height="150">
   <div class="upgrade">
     <button onclick="buySword()">Buy Sword (Cost: <span id="swordCost">40</span>)</button>
     <button onclick="buyShield()">Buy Shield (Cost: <span id="shieldCost">100</span>)</button>
@@ -116,7 +116,7 @@ button:hover {
     <div id="clicker" class="game">
       <h2>Gem Clicker 💎</h2>
       <p>Gems: <span id="gems">0</span></p>
-      <img src="images/gem.png" alt="Gem" class="clicker-image" onclick="mineGem()">
+      <img src="images/gem.png" alt="Gem" class="clicker-image" onclick="mineGem()" width="1000" height="150">
       <div class="upgrade">
         <button onclick="buyGemUpgrade()">Upgrade Click (Cost: <span id="gemUpgradeCost">10</span>)</button>
         <button onclick="buyGemAutoClicker()">Buy Auto Clicker (Cost: <span id="autoClickerCost">100</span>)</button>
@@ -130,7 +130,7 @@ button:hover {
       <h2>Miner Inc ⛏️</h2>
       <p>Money: $<span id="money">0</span></p>
       <p>Miners: <span id="miners">0</span></p>
-      <img src="images/miner.png" alt="Miner" class="miner-image">
+      <img src="images/miner.png" alt="Miner" class="miner-image" width="1000" height="150">
       <div>
         <button onclick="hireMiner()">Hire Miner ($<span id="minerCost">20</span>)</button>
       </div>
@@ -144,7 +144,7 @@ button:hover {
 <div id="space-mining" class="game">
   <h2>Space Mining 🚀</h2>
   <p>Ore: <span id="ore">0</span></p>
-  <img src="images/asteroid.png" alt="Asteroid" class="clicker-image" onclick="mineOre()">
+  <img src="images/asteroid.png" alt="Asteroid" class="clicker-image" onclick="mineOre()" width="1000" height="150">
   <div class="upgrade">
     <button onclick="buyLaser()">Upgrade Laser (Cost: <span id="laserCost">50</span>)</button>
     <button onclick="hirePilot()">Hire Pilot (Cost: <span id="pilotCost">200</span>)</button>
@@ -156,7 +156,7 @@ button:hover {
 <div id="robot" class="game">
   <h2>Robot Factory 🤖</h2>
   <p>Parts: <span id="parts">0</span></p>
-  <img src="images/robot.png" alt="Robot Part" class="clicker-image" onclick="collectPart()">
+  <img src="images/robot.png" alt="Robot Part" class="clicker-image" onclick="collectPart()" width="1000" height="150">
   <div class="upgrade">
     <button onclick="upgradeTool()">Upgrade Tool (Cost: <span id="toolCost">25</span>)</button>
     <button onclick="hireEngineer()">Hire Engineer (Cost: <span id="engineerCost">200</span>)</button>
@@ -168,7 +168,7 @@ button:hover {
 <div id="farm" class="game">
   <h2>Pixel Farm 🌾</h2>
   <p>Wheat: <span id="wheat">0</span></p>
-  <img src="images/farm.png" alt="Wheat Field" class="clicker-image" onclick="harvestWheat()">
+  <img src="images/farm.png" alt="Wheat Field" class="clicker-image" onclick="harvestWheat()" width="1000" height="150">
   <div class="upgrade">
     <button onclick="buyTractor()">Buy Tractor (Cost: <span id="tractorCost">20</span>)</button>
     <button onclick="buyAutoFarmer()">Hire Auto Farmer (Cost: <span id="farmerCost">150</span>)</button>
@@ -180,7 +180,7 @@ button:hover {
 <div id="burger" class="game">
   <h2>Burger Empire 🍔</h2>
   <p>Burgers: <span id="burgers">0</span></p>
-  <img src="images/Burger.png" alt="Burger" class="clicker-image" onclick="grillBurger()">
+  <img src="images/Burger.png" alt="Burger" class="clicker-image" onclick="grillBurger()" width="1000" height="150">
   <div class="upgrade">
     <button onclick="buyGrill()">Buy Grill (Cost: <span id="grillCost">25</span>)</button>
     <button onclick="hireChef()">Hire Chef (Cost: <span id="chefCost">150</span>)</button>
@@ -193,7 +193,7 @@ button:hover {
     <div id="cookie" class="game">
       <h2>Cookie Craze 🍪</h2>
       <p>Cookies: <span id="cookies">0</span></p>
-      <img src="images/cookie.png" alt="Cookie" class="clicker-image" onclick="bakeCookie()">
+      <img src="images/cookie.png" alt="Cookie" class="clicker-image" onclick="bakeCookie()" width="1000" height="150">
       <div class="upgrade">
         <button onclick="buyCookieUpgrade()">Upgrade Click (Cost: <span id="cookieUpgradeCost">15</span>)</button>
         <button onclick="buyBaker()">Hire Baker (Cost: <span id="bakerCost">100</span>)</button>
@@ -207,7 +207,7 @@ button:hover {
       <h2>Alien Tycoon 👽</h2>
       <p>Energy: ⚡<span id="energy">0</span></p>
       <p>Aliens: <span id="aliens">0</span></p>
-      <img src="images/alien.png" alt="Alien Worker" class="miner-image">
+      <img src="images/alien.png" alt="Alien Worker" class="miner-image" width="1000" height="150">
       <div>
         <button onclick="hireAlien()">Hire Alien (⚡<span id="alienCost">30</span>)</button>
         <button onclick="upgradeSpaceship()">Upgrade Spaceship (⚡<span id="spaceshipUpgradeCost">80</span>)</button>
