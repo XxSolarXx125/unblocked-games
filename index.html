@@ -55,7 +55,7 @@ button:hover {
     <div id="menu">
       <button onclick="showGame('clicker')">Play Gem Clicker</button>
       <button onclick="showGame('simulator')">Play Miner Inc</button>
-      <button onclick="showGame('cookie')">Play Cookie Craze</button>
+      <button onclick="showGame('cookie')">Play Cookie Clicker</button>
       <button onclick="showGame('alien')">Play Alien Tycoon</button>
 	  <button onclick="showGame('farm')">Play Pixel Farm</button>
 	  <button onclick="showGame('robot')">Play Robot Factory</button>
@@ -114,9 +114,9 @@ button:hover {
   <button onclick="goBack()">🔙 Back</button>
 </div>
 
-    <!-- Cookie Craze Game -->
+    <!-- Cookie Clicker Game -->
     <div id="cookie" class="game">
-      <h2>Cookie Craze 🍪</h2>
+      <h2>Cookie Clicker 🍪</h2>
       <p>Cookies: <span id="cookies">0</span></p>
       <img src="images/cookie.png" alt="Cookie" class="clicker-image" onclick="bakeCookie()">
       <div class="upgrade">
@@ -331,7 +331,7 @@ setInterval(() => {
       updateSimulatorUI();
     }, 1000);
 
-    // Cookie Craze Game
+    // Cookie Clicker Game
     let cookies = +localStorage.getItem('cookies') || 1;
     let cookiesPerClick = +localStorage.getItem('cookiesPerClick') || 1;
     let cookieUpgradeCost = +localStorage.getItem('cookieUpgradeCost') || 15;
